@@ -14,6 +14,8 @@ Suppose your instance is running and has a public IP address, but `ssh` cannot c
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
+EC2 -> instances -> Checkbox -> Security -> security groups
+
 ...
 
 ## 2. Lambda: why didn't my function run?
@@ -25,6 +27,7 @@ Suppose you uploaded a new book to your bucket, but several minutes later MongoD
 *Hint:* the class demo [A Lambda function in the AWS Console](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md), steps [5. Add the S3 trigger](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md#5-add-the-s3-trigger) and [8. Preview: the same steps with Chalice](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md#8-preview-the-same-steps-with-chalice).
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
+Lambda -> Event Functions -> book-analyzer-dev-analyze_new_book -> Configuration -> Triggers 
 
 ...
 
@@ -37,7 +40,7 @@ Suppose the function did start, but MongoDB still has no document for the book. 
 *Hint:* [Part 2, Step 7](README.md#step-7-upload-a-new-book) in the README, and the class demo [A Lambda function in the AWS Console](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md), step [7. Check the CloudWatch logs](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md#7-check-the-cloudwatch-logs).
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
-
+CloudWatch -> Logs -> Log Management ->  /aws/lambda/book-analyzer-dev-analyze_new_book -> log stream
 ...
 
 ## 4. EC2 or Lambda: a backlog or new uploads?
@@ -53,5 +56,7 @@ For comparison, typical times in this lab:
 - **Lambda** (512 MB): about 2 seconds for one book, including about 1 second to start the function the first time (a cold start). The function runs, and costs, only while a book is analyzed.
 
 **Your answer:**
+- Case A, a backlog: EC2. I would use EC2 because it can process all 5,000 books in one batch efficiently. Since the books are already uploaded, there is no need for an event trigger, and the startup cost can be spread across the entire batch.
+- Case B, new uploads: Lambda. I would use Lambda because it automatically runs whenever a new book is uploaded to the bucket. Its short execution time and pay-per-use pricing make it ideal for handling a few unpredictable uploads while meeting the one-minute requirement.
 
 ...
